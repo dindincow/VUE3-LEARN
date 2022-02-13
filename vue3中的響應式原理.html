@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        // 模擬 vue3 實現響應式
+        let person = {
+            name:'jessica',
+            age:20
+        }
+
+        // p:代理對象 person:目標對象
+        // 在vue3 中，主要是通過Proxy來監控數據是否變化，然後在使用 Reflect 來對原來數據做資料 CRUD
+        const p = new Proxy(person,{
+
+            get(targer,propName){
+                console.log(`有人讀取到 p 身上的 ${propName} 屬性`)
+                return Reflect.get(targer,propName)
+            },
+            // 修改或增加
+            set(targer,propName,value){
+                console.log(`有人修改 p 身上的 ${propName} 屬性，需要去更新界面了`)
+                Reflect.set(targer,propName,value)
+            },
+            deleteProperty(targer,propName){
+                console.log(`有人刪除 p 身上的 ${propName} 屬性，需要去更新界面了`)
+                return  Reflect.set(targer,propName)
+            }
+        })
+    </script>
+</body>
+</html>
